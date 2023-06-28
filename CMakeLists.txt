@@ -19,6 +19,24 @@ link_directories("ext/SFML/lib/")
 
 add_executable("${PROJECT_NAME}" main.cpp
 
+								inc/Character.hpp
+								src/Character.cpp
+								
+								inc/Object.hpp
+								src/Object.cpp
+								
+								inc/Block.hpp
+								src/Block/cpp
+								
+								inc/UnusualBlocks.hpp
+								src/UnusualBlocks.cpp
+								
+								inc/Mobs.hpp
+								src/Mobs.cpp
+								
+								inc/Map.hpp
+								src/Map.cpp
+
 
 )
 
