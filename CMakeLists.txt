@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.15) # Проверка версии CMake.
 									 # Если версия установленой программы
 									 # старее указаной, произайдёт аварийный выход.
 
-set(PROJECT_NAME sfml_sample)				 # имя проекта		 
+set(PROJECT_NAME Mario)				 # имя проекта		 
 project("${PROJECT_NAME}")
 
 
@@ -26,7 +26,7 @@ add_executable("${PROJECT_NAME}" main.cpp
 								src/Object.cpp
 								
 								inc/Block.hpp
-								src/Block/cpp
+								src/Block.cpp
 								
 								inc/UnusualBlocks.hpp
 								src/UnusualBlocks.cpp
