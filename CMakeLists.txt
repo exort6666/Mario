@@ -17,7 +17,7 @@ include_directories("ext/SFML/include/") 		# добавляем директор
 
 link_directories("ext/SFML/lib/")
 
-add_executable("${PROJECT_NAME}" practice3.cpp
+add_executable("${PROJECT_NAME}" main.cpp
 
 
 )
