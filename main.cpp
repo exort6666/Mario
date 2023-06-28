@@ -1,5 +1,10 @@
 ﻿#include <SFML/Graphics.hpp>
-
+#include "Block.hpp"
+#include "Mobs.hpp"
+#include "Character.hpp"
+#include "Map.hpp"
+#include "Object.hpp"
+#include "UnusualBlocks.hpp"
 int main()
 {
     sf::RenderWindow window(sf::VideoMode(200, 200), "SFML works!");
