@@ -15,10 +15,14 @@ private:
     sf::Sprite Sprite;
     coords Pos;
     double currentFrame = 0;
+    float currentFrameAttack = 0;
     float jumpHeight = 100;
+    std::string DirOfimpact;
 
 public:
+    bool strike;
     bool OnGround;
+    bool fall; 
 
     Character(coords _pos);
     
@@ -27,4 +31,6 @@ public:
     void move(coords a, float time);
 
     void update(float time);
+
+    void attack(std::string orientation);
 };

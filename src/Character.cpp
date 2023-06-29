@@ -1,8 +1,12 @@
 #pragma once
 #include "Character.hpp"
+#include <iostream>
+#include <string>
 
 Character::Character(coords _pos):Pos(_pos) {
     OnGround = true;
+    fall = false;
+    strike = false;
     Pers.loadFromFile("AnimatedPers/Comparison2x.png");
     Sprite.setTexture(Pers);
     Sprite.setPosition(Pos.x, Pos.y);
@@ -33,19 +37,47 @@ void Character::move(coords a, float time) {
 void Character::update(float time) {
     float jumpHeight = 150;
     static float i = 0;
-    if (!OnGround) {
+    if (!OnGround && !fall) {
         if (i < jumpHeight) {
             i += 2 * time;
             Pos.y -= 2 * time;
         }
-        else
+        else {
             OnGround = true;
+            fall = true;
+        }
     }
-    if (OnGround && Pos.y != 400/*ground*/) {
+    if (OnGround && Pos.y != 400/*ground*/ && fall) {
         if (i >= 0) {
             i -= 2 * time;
             Pos.y += 2 * time;
         }
+        else {
+            fall = false;
+            i = 0;
+        }
+    }
+    if (strike == true) {
+        Pers.loadFromFile("AnimatedPers/_Attack.png");
+        Sprite.setTexture(Pers);
+        currentFrameAttack += 0.02 * time;
+        if (currentFrameAttack > 4) {
+            currentFrameAttack = 0;
+            strike = false;
+        }
+        if (DirOfimpact == "right")
+            Sprite.setTextureRect(sf::IntRect(0 + (70 * int(currentFrameAttack)), 40, 70, 40));
+        if (DirOfimpact == "left")
+            Sprite.setTextureRect(sf::IntRect(0 + (70 * int(currentFrameAttack))+ 70, 40, -70, 40));
     }
     Sprite.setPosition(Pos.x, Pos.y);
+    
+}
+
+void Character::attack(std::string orientation) {
+    std::cout << "Huyarit" << ' ';
+    if (!strike && !fall && OnGround){
+        strike = true;
+        DirOfimpact = orientation;
+    }
 }
