@@ -37,6 +37,9 @@ add_executable("${PROJECT_NAME}" main.cpp
 								inc/Map.hpp
 								src/Map.cpp
 								
+								AnimatedPers/_Run.png
+								AnimatedPers/_TurnAround.png
+								AnimatedPers/Comparison2x.png
 		
 )
 											
