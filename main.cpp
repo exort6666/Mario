@@ -8,7 +8,7 @@ struct coords {
     float y;
 };
 
-int ground = 100;
+int ground = 400;
 
 class Character {
 private:
@@ -70,7 +70,7 @@ public:
         }
         if (OnGround && Pos.y!= ground) {
             std::cout << "fall" << ' ';
-            if (i > 0 ) {
+            if (i >= 0 ) {
                 i -= 2 * time;
                 Pos.y += 2 * time;
             }
