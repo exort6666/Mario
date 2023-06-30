@@ -40,6 +40,8 @@ add_executable("${PROJECT_NAME}" main.cpp
 								AnimatedPers/_Run.png
 								AnimatedPers/_TurnAround.png
 								AnimatedPers/Comparison2x.png
+								AnimatedPers/_Attack.png
+								AnimatedPers/_Jump.png
 		
 )
 											

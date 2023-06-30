@@ -41,6 +41,13 @@ void Character::update(float time) {
     float jumpHeight = 150;
     static float i = 0;
     if (!OnGround && !fall) {
+        Pers.loadFromFile("AnimatedPers/_Jump.png");
+        Sprite.setTexture(Pers);
+        if (DirOfimpact == "right")
+            Sprite.setTextureRect(sf::IntRect(40, 40, 30, 40));
+        if (DirOfimpact == "left")
+            Sprite.setTextureRect(sf::IntRect(80, 40, -40, 40));
+
         if (i < jumpHeight) {
             i += 2 * time;
             Pos.y -= 2 * time;
