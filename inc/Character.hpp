@@ -32,5 +32,5 @@ public:
 
     void update(float time);
 
-    void attack(std::string orientation);
+    void attack();
 };

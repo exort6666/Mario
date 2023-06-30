@@ -10,6 +10,7 @@ Character::Character(coords _pos):Pos(_pos) {
     Pers.loadFromFile("AnimatedPers/Comparison2x.png");
     Sprite.setTexture(Pers);
     Sprite.setPosition(Pos.x, Pos.y);
+    DirOfimpact = "right";
 }
 
 void Character::draw(sf::RenderWindow& window) {
@@ -27,9 +28,11 @@ void Character::move(coords a, float time) {
     Sprite.setPosition(Pos.x, Pos.y);
     if (a.x > 0) {
         Sprite.setTextureRect(sf::IntRect(0 + (50 * int(currentFrame)), 30, 30, 52));
+        DirOfimpact = "right";
     }
     if (a.x < 0) {
         Sprite.setTextureRect(sf::IntRect(0 + (50 * int(currentFrame)) + 30, 30, -30, 52));
+        DirOfimpact = "left";
     }
     Sprite.setPosition(Pos.x, Pos.y);
 }
@@ -68,16 +71,14 @@ void Character::update(float time) {
         if (DirOfimpact == "right")
             Sprite.setTextureRect(sf::IntRect(0 + (70 * int(currentFrameAttack)), 40, 70, 40));
         if (DirOfimpact == "left")
-            Sprite.setTextureRect(sf::IntRect(0 + (70 * int(currentFrameAttack))+ 70, 40, -70, 40));
+            Sprite.setTextureRect(sf::IntRect(0 + (70 * int(currentFrameAttack)) + 70, 40, -70, 40));
     }
     Sprite.setPosition(Pos.x, Pos.y);
-    
 }
 
-void Character::attack(std::string orientation) {
+void Character::attack() {
     std::cout << "Huyarit" << ' ';
     if (!strike && !fall && OnGround){
         strike = true;
-        DirOfimpact = orientation;
     }
 }
