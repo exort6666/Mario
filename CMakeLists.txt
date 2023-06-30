@@ -45,9 +45,9 @@ add_executable("${PROJECT_NAME}" main.cpp
 								
 								AnimatedSkeleton/Attack.png
 								AnimatedSkeleton/Walk.png
-								AnimatedSkeletom/Death.png
-								AnimatedSkeletom/Idle.png
-								AnimatedSkeletom/TakeHit.png
+								AnimatedSkeleton/Death.png
+								AnimatedSkeleton/Idle.png
+								AnimatedSkeleton/TakeHit.png
 		
 )
 											
