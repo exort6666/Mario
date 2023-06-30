@@ -7,8 +7,9 @@ Character::Character(coords _pos):Pos(_pos) {
     OnGround = true;
     fall = false;
     strike = false;
-    Pers.loadFromFile("AnimatedPers/Comparison2x.png");
+    Pers.loadFromFile("AnimatedPers/_Idle.png");
     Sprite.setTexture(Pers);
+    Sprite.setTextureRect(sf::IntRect(40, 40, 30, 40));
     Sprite.setPosition(Pos.x, Pos.y);
     DirOfimpact = "right";
 }
