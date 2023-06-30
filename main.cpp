@@ -106,7 +106,12 @@ public:
 
 int main()
 {
- 
+    //Шрифт
+    sf::Font font;
+    font.loadFromFile("Font/font.TTF");
+    sf::Text text("", font, 100);
+    text.setColor(sf::Color::Red);
+    text.setStyle(sf::Text::Bold | sf::Text::Underlined);
     // Позиция блоков
     coords Block_pos;
     // Выбирается цвет блоков
@@ -128,6 +133,8 @@ int main()
     sf::Clock clock;
     // Количество ударов,получаемое героем
     int hit = 0;
+    //Булл переменная,для постоянного выйгрыша после победы
+    bool victory = false;
     while (window.isOpen()) {
         float deltaTime = clock.getElapsedTime().asMicroseconds();
         clock.restart();
@@ -144,7 +151,7 @@ int main()
             Hero->move({ -2,0 }, deltaTime);
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::W) && (Hero->OnGround) && (!Hero->fall))
             Hero->OnGround = false;
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::F) && (!Hero->strike) && (!Hero->fall) && (Hero->OnGround)){
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::F) && (!Hero->strike) && (!Hero->fall) && (Hero->OnGround)) {
             Hero->attack();
             if (Skeleton->takeDamage((Hero->position().x))) {
 
@@ -176,6 +183,16 @@ int main()
         }
         Hero->draw(window);
         Skeleton->draw(window);
+        if ((Hero->position().x >= Field.x) || (victory)) {
+            if (victory != true) {
+                victory = true;
+            }
+            text.setString("YOU WIN");
+            text.setPosition(400, 200);
+            window.clear();
+            window.draw(backgrounds);
+            window.draw(text);
+        }
 
         window.display();
         }

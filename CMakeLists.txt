@@ -47,7 +47,7 @@ add_executable("${PROJECT_NAME}" main.cpp
 								AnimatedSkeleton/TakeHit.png
 								
 								Background/background.png
-								
+								Font/font.TTF
 								Heart/Full.png
 )
 											
