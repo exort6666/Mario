@@ -17,6 +17,7 @@ private:
     double currentFrame = 0;
     float currentFrameAttack = 0;
     float jumpHeight = 100;
+    float HitRange = 15;
     std::string DirOfimpact;
 
 public:
@@ -26,11 +27,15 @@ public:
 
     Character(coords _pos);
     
-    void draw(sf::RenderWindow& window);
+    virtual void draw(sf::RenderWindow& window);
 
-    void move(coords a, float time);
+    virtual void move(coords a, float time);
 
-    void update(float time);
+    virtual void update(float time);
 
-    void attack();
+    virtual void attack();
+
+    coords position() {
+        return Pos;
+    }
 };

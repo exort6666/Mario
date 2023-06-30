@@ -26,7 +26,6 @@ void Character::move(coords a, float time) {
     Pers.loadFromFile("AnimatedPers/_Run.png");
     Sprite.setTexture(Pers);
     Pos.x += a.x * time / 2;
-    Sprite.setPosition(Pos.x, Pos.y);
     if (a.x > 0) {
         Sprite.setTextureRect(sf::IntRect(0 + (50 * int(currentFrame)), 30, 30, 52));
         DirOfimpact = "right";
