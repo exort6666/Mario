@@ -84,6 +84,7 @@ void Character::update(float time) {
 }
 
 void Character::attack() {
+    std::cout << "Huyarit" << ' ';
     if (!strike && !fall && OnGround){
         strike = true;
     }

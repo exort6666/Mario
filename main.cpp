@@ -1,4 +1,6 @@
 ﻿#include "Character.hpp"
+#include "Block.hpp"
+#include "Heart.hpp"
 //#include "Mobs.hpp"
 #include <iostream>
 #include <chrono>
@@ -10,6 +12,7 @@ private:
     sf::Sprite SpriteEnemy;
     coords Pos;
      
+    int Health = 2;
     float currentFrame = 0;
     float currentFrameAttack = 0;
     float HitRange = 15;
@@ -19,11 +22,13 @@ private:
     bool emphasis;
 
 public:
+<<<<<<< HEAD
     int Health = 2;
     bool strike;
+=======
+    bool Strike;
+>>>>>>> 914905b6b43847b8ee40a3bba6b735f8d0840372
     bool Saw_hero = false;
-    bool TakeDamage = false;
-
     Mob(coords _pos): Character(_pos) {
         Pos = _pos;
         Enemy.loadFromFile("AnimatedSkeleton/Idle.png");
@@ -40,6 +45,7 @@ public:
 
     void update(float distance,float time) {
         static float i = 0;
+<<<<<<< HEAD
         if(TakeDamage && Health > 0) {
             Enemy.loadFromFile("AnimatedSkeleton/TakeHit.png");
             SpriteEnemy.setTexture(Enemy);
@@ -67,6 +73,9 @@ public:
             }
         }
         if ((((distance < 100 && distance > -100) || strike) && !TakeDamage) && Health > 0) {
+=======
+        if ((distance < 100 && distance > -100) || strike) {
+>>>>>>> 914905b6b43847b8ee40a3bba6b735f8d0840372
             Saw_hero = true;
             Enemy.loadFromFile("AnimatedSkeleton/Idle.png");
             SpriteEnemy.setTexture(Enemy);
@@ -83,18 +92,19 @@ public:
                     currentFrameAttack = 0;
                     strike = false;
                 }
-                if (DirOfimpact == "left") {
+                if (DirOfimpact == "left")
                     SpriteEnemy.setTextureRect(sf::IntRect(100 + 100 * (int(currentFrameAttack)), 95, -100, 55));
-                }
-                if (DirOfimpact == "right") {
-                    SpriteEnemy.setTextureRect(sf::IntRect(0 + 100 * (int(currentFrameAttack)), 95, 80, 55));
-                }
+                if (DirOfimpact == "right")
+                    SpriteEnemy.setTextureRect(sf::IntRect(0 + 100 * (int (currentFrameAttack)), 95, 80, 55));
             }
         }
+<<<<<<< HEAD
         if (((distance > 100 || distance < -100) && !strike) && !TakeDamage && Health > 0)
+=======
+        if ((distance > 100 && distance < -100) && !strike)
+>>>>>>> 914905b6b43847b8ee40a3bba6b735f8d0840372
             Saw_hero = false;
-
-        if ((!Saw_hero && !strike)&& !TakeDamage && Health > 0) {
+        if (!Saw_hero && !strike) {
             currentFrame += 0.05 * time;
             if (currentFrame > 3) {
                 currentFrame = 0;
@@ -123,16 +133,47 @@ public:
     coords position() {
         return Pos;
     }
+
+    bool takeDamage(float range) {
+        if (Pos.x - range <= 15) {
+            return true;
+        }
+        else
+            return false;
+    }
 };
 
 int main()
 {
-    std::unique_ptr<Character> Hero(new Character({100,400}));
-    std::unique_ptr<Mob> Skeleton(new Mob({ 700,400 }));
+    //Шрифт
+    sf::Font font;
+    font.loadFromFile("Font/font.TTF");
+    sf::Text text("", font, 100);
+    text.setColor(sf::Color::Red);
+    text.setStyle(sf::Text::Bold | sf::Text::Underlined);
+    // Позиция блоков
+    coords Block_pos;
+    // Выбирается цвет блоков
+    sf::Color color_blocks = sf::Color::Black;
 
-    sf::RenderWindow window(sf::VideoMode(1200, 600), "SFML works!");
+    // Всё для бэкграунда
+    sf::Texture background;
+    background.loadFromFile("Background/background.png");
+    sf::Sprite backgrounds(background);
 
+    Character* Hero =  new  Character({ 100, 400 });
+    Mob* Skeleton = new Mob({ 700, 400 });
+    // Создаются размеры окна
+    coords Field{ 1200, 600 };
+    sf::RenderWindow window(sf::VideoMode(Field.x, Field.y), "SFML works!");
+    // Создается сердце
+    coords heart_pos = { 0,0 };
+    MA::Heart heart(heart_pos);
     sf::Clock clock;
+    // Количество ударов,получаемое героем
+    int hit = 0;
+    //Булл переменная,для постоянного выйгрыша после победы
+    bool victory = false;
     while (window.isOpen()) {
         float deltaTime = clock.getElapsedTime().asMicroseconds();
         clock.restart();
@@ -149,18 +190,53 @@ int main()
             Hero->move({ -2,0 }, deltaTime);
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::W) && (Hero->OnGround) && (!Hero->fall))
             Hero->OnGround = false;
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::F) && (!Hero->strike) && (!Hero->fall) && (Hero->OnGround)){
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::F) && (!Hero->strike) && (!Hero->fall) && (Hero->OnGround)) {
             Hero->attack();
+<<<<<<< HEAD
             if ((Hero->position().x - Skeleton->position().x <= 10)&& Skeleton->Health != 0) {
                 Skeleton->TakeDamage = true;
+=======
+            if (Skeleton->takeDamage((Hero->position().x))) {
+
+
+>>>>>>> 914905b6b43847b8ee40a3bba6b735f8d0840372
             }
         }
         Hero->update(deltaTime);
         Skeleton->update((Skeleton->position().x - Hero->position().x), deltaTime);
+        //Добавить получение по ебучке герою//
         window.clear();
-
+        //Бэкграунд
+        window.draw(backgrounds);
+        //Выбираются позиции блоков и рисуются
+        Block_pos = { 0, 460 };
+        while (Block_pos.y < Field.y) {
+            while (Block_pos.x < Field.x) {
+                MA::Block Block(Block_pos, color_blocks);
+                Block.draw(window);
+                Block_pos.x += 50;
+            }
+            Block_pos.x = 0;
+            Block_pos.y += 50;
+        }
+        coords heart_pos = { 0,0 };
+        for (int i = 0; i < 5 - hit; i++) {
+            heart.draw(window);
+            heart_pos.x += 20;
+            heart.setCoords(heart_pos);
+        }
         Hero->draw(window);
         Skeleton->draw(window);
+        if ((Hero->position().x >= Field.x) || (victory)) {
+            if (victory != true) {
+                victory = true;
+            }
+            text.setString("YOU WIN");
+            text.setPosition(400, 200);
+            window.clear();
+            window.draw(backgrounds);
+            window.draw(text);
+        }
 
         window.display();
         }

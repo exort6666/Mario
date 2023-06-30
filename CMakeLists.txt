@@ -28,14 +28,11 @@ add_executable("${PROJECT_NAME}" main.cpp
 								inc/Block.hpp
 								src/Block.cpp
 								
-								inc/UnusualBlocks.hpp
-								src/UnusualBlocks.cpp
-								
 								inc/Mobs.hpp
 								src/Mobs.cpp
 								
-								inc/Map.hpp
-								src/Map.cpp
+								inc/Heart.hpp
+								src/Heart.cpp
 								
 								AnimatedPers/_Run.png
 								AnimatedPers/_TurnAround.png
@@ -48,7 +45,10 @@ add_executable("${PROJECT_NAME}" main.cpp
 								AnimatedSkeleton/Death.png
 								AnimatedSkeleton/Idle.png
 								AnimatedSkeleton/TakeHit.png
-		
+								
+								Background/background.png
+								Font/font.TTF
+								Heart/Full.png
 )
 											
 target_link_libraries("${PROJECT_NAME}" sfml-graphics-s-d
