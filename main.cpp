@@ -9,17 +9,20 @@ private:
     sf::Texture Enemy;
     sf::Sprite SpriteEnemy;
     coords Pos;
-    double currentFrame = 0;
+     
+    int Health = 2;
+    float currentFrame = 0;
     float currentFrameAttack = 0;
     float HitRange = 15;
+    float distanceWalk = 150;
+
     std::string DirOfimpact;
-    float distanceWalk = 75;
     bool emphasis;
 
 public:
     bool Strike;
     bool Saw_hero = false;
-    Mob(coords _pos): Character(_pos){
+    Mob(coords _pos): Character(_pos) {
         Pos = _pos;
         Enemy.loadFromFile("AnimatedSkeleton/Idle.png");
         SpriteEnemy.setTexture(Enemy);
@@ -35,10 +38,32 @@ public:
 
     void update(float distance,float time) {
         static float i = 0;
-        if (distance < 150) {
+        if ((distance < 100 && distance > -100) || strike) {
             Saw_hero = true;
+            Enemy.loadFromFile("AnimatedSkeleton/Idle.png");
+            SpriteEnemy.setTexture(Enemy);
+            if (DirOfimpact == "right")
+                SpriteEnemy.setTextureRect(sf::IntRect(0, 95, 45, 55));
+            if (DirOfimpact == "left")
+                SpriteEnemy.setTextureRect(sf::IntRect(45, 95, -45, 55));
+            if ((distance < 25 && distance > -25) || strike) {
+                currentFrameAttack += 0.025 * time;
+                strike = true;
+                Enemy.loadFromFile("AnimatedSkeleton/Attack.png");
+                SpriteEnemy.setTexture(Enemy);
+                if (currentFrameAttack > 7) {
+                    currentFrameAttack = 0;
+                    strike = false;
+                }
+                if (DirOfimpact == "left")
+                    SpriteEnemy.setTextureRect(sf::IntRect(100 + 100 * (int(currentFrameAttack)), 95, -100, 55));
+                if (DirOfimpact == "right")
+                    SpriteEnemy.setTextureRect(sf::IntRect(0 + 100 * (int (currentFrameAttack)), 95, 80, 55));
+            }
         }
-        if (!Saw_hero) {
+        if ((distance > 100 && distance < -100) && !strike)
+            Saw_hero = false;
+        if (!Saw_hero && !strike) {
             currentFrame += 0.05 * time;
             if (currentFrame > 3) {
                 currentFrame = 0;
@@ -60,23 +85,15 @@ public:
                 if (i < 0)
                     emphasis = false;
             }
-            SpriteEnemy.setPosition(Pos.x, Pos.y);
-            std::cout << i << ' ' << emphasis << std::endl;
         }
+        SpriteEnemy.setPosition(Pos.x, Pos.y);
     }
 
     coords position() {
         return Pos;
     }
 
-
-    void move(coords a, float time)
-    {
-
-    }
-
-    bool takeDamage(float range)
-    {
+    bool takeDamage(float range) {
         if (Pos.x - range <= 15) {
             return true;
         }
@@ -112,7 +129,8 @@ int main()
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::F) && (!Hero->strike) && (!Hero->fall) && (Hero->OnGround)){
             Hero->attack();
             if (Skeleton->takeDamage((Hero->position().x))) {
-                //Добавить функцию получения по ебалу//
+
+
             }
         }
         Hero->update(deltaTime);

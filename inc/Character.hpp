@@ -11,6 +11,7 @@ struct coords {
 
 class Character {
 private:
+    int Health;
     sf::Texture Pers;
     sf::Sprite Sprite;
     coords Pos;
@@ -18,7 +19,6 @@ private:
     float currentFrameAttack = 0;
     float jumpHeight = 100;
     float HitRange = 15;
-    std::string DirOfimpact;
 
 public:
     bool strike;
@@ -38,4 +38,6 @@ public:
     coords position() {
         return Pos;
     }
+protected:
+    std::string DirOfimpact = "right";
 };

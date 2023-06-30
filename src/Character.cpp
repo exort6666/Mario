@@ -4,6 +4,7 @@
 #include <string>
 
 Character::Character(coords _pos):Pos(_pos) {
+    Health = 3;
     OnGround = true;
     fall = false;
     strike = false;
@@ -11,7 +12,6 @@ Character::Character(coords _pos):Pos(_pos) {
     Sprite.setTexture(Pers);
     Sprite.setTextureRect(sf::IntRect(40, 40, 30, 40));
     Sprite.setPosition(Pos.x, Pos.y);
-    DirOfimpact = "right";
 }
 
 void Character::draw(sf::RenderWindow& window) {
