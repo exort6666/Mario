@@ -22,18 +22,13 @@ private:
     bool emphasis;
 
 public:
-<<<<<<< HEAD
-    int Health = 2;
-    bool strike;
-=======
     bool Strike;
->>>>>>> 914905b6b43847b8ee40a3bba6b735f8d0840372
     bool Saw_hero = false;
     Mob(coords _pos): Character(_pos) {
         Pos = _pos;
         Enemy.loadFromFile("AnimatedSkeleton/Idle.png");
         SpriteEnemy.setTexture(Enemy);
-        SpriteEnemy.setTextureRect(sf::IntRect(100, 95, -100, 55));
+        SpriteEnemy.setTextureRect(sf::IntRect(45, 95, -45, 55));
         SpriteEnemy.setPosition(Pos.x, Pos.y);
         DirOfimpact = "left";
         emphasis = false;
@@ -45,45 +40,15 @@ public:
 
     void update(float distance,float time) {
         static float i = 0;
-<<<<<<< HEAD
-        if(TakeDamage && Health > 0) {
-            Enemy.loadFromFile("AnimatedSkeleton/TakeHit.png");
-            SpriteEnemy.setTexture(Enemy);
-            currentFrame += 0.01 * time;
-            if (currentFrame > 3){
-                currentFrame = 0;
-                TakeDamage = false;
-                Health--;
-            }
-            if (DirOfimpact == "left") 
-                SpriteEnemy.setTextureRect(sf::IntRect(100 + 100 * int(currentFrame), 95, -100, 55));
-            if (DirOfimpact == "right")
-                SpriteEnemy.setTextureRect(sf::IntRect(0 + 100 * int(currentFrame), 95, 100, 55));
-        }
-        if (Health == 0) {
-            currentFrame += 0.01 * time;
-            Enemy.loadFromFile("AnimatedSkeleton/Death.png");
-            SpriteEnemy.setTexture(Enemy);
-            if(currentFrame > 3.5) {
-                currentFrame = 0;
-                Health = -1;
-            }
-            if (DirOfimpact == "left" && Health == 0) {
-                SpriteEnemy.setTextureRect(sf::IntRect(100 + 100 * int(currentFrame), 95, -100, 55));
-            }
-        }
-        if ((((distance < 100 && distance > -100) || strike) && !TakeDamage) && Health > 0) {
-=======
         if ((distance < 100 && distance > -100) || strike) {
->>>>>>> 914905b6b43847b8ee40a3bba6b735f8d0840372
             Saw_hero = true;
             Enemy.loadFromFile("AnimatedSkeleton/Idle.png");
             SpriteEnemy.setTexture(Enemy);
             if (DirOfimpact == "right")
-                SpriteEnemy.setTextureRect(sf::IntRect(0, 95, 100, 55));
+                SpriteEnemy.setTextureRect(sf::IntRect(0, 95, 45, 55));
             if (DirOfimpact == "left")
-                SpriteEnemy.setTextureRect(sf::IntRect(100, 95, -100, 55));
-            if ((distance < 15 && distance > -15) || strike) {
+                SpriteEnemy.setTextureRect(sf::IntRect(45, 95, -45, 55));
+            if ((distance < 25 && distance > -25) || strike) {
                 currentFrameAttack += 0.025 * time;
                 strike = true;
                 Enemy.loadFromFile("AnimatedSkeleton/Attack.png");
@@ -98,11 +63,7 @@ public:
                     SpriteEnemy.setTextureRect(sf::IntRect(0 + 100 * (int (currentFrameAttack)), 95, 80, 55));
             }
         }
-<<<<<<< HEAD
-        if (((distance > 100 || distance < -100) && !strike) && !TakeDamage && Health > 0)
-=======
         if ((distance > 100 && distance < -100) && !strike)
->>>>>>> 914905b6b43847b8ee40a3bba6b735f8d0840372
             Saw_hero = false;
         if (!Saw_hero && !strike) {
             currentFrame += 0.05 * time;
@@ -113,7 +74,7 @@ public:
             SpriteEnemy.setTexture(Enemy);
             if (i < (distanceWalk + 1) && !emphasis) {
                 i += 0.25 * time;
-                SpriteEnemy.setTextureRect(sf::IntRect(100 + 100 * (int(currentFrame)), 95, -100, 55));
+                SpriteEnemy.setTextureRect(sf::IntRect(50 + 50 * (int(currentFrame)), 95, -50, 55));
                 Pos.x -= 0.25 * time;
                 if (i >= distanceWalk) {
                     emphasis = true;
@@ -121,7 +82,7 @@ public:
             }
             if ((i > 0) && emphasis) {
                 i -= 0.25 * time;
-                SpriteEnemy.setTextureRect(sf::IntRect(0 + 100 * (int(currentFrame)), 95, 100, 55));
+                SpriteEnemy.setTextureRect(sf::IntRect(0 + 50 * (int(currentFrame)), 95, 50, 55));
                 Pos.x += 0.25 * time;
                 if (i < 0)
                     emphasis = false;
@@ -192,14 +153,9 @@ int main()
             Hero->OnGround = false;
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::F) && (!Hero->strike) && (!Hero->fall) && (Hero->OnGround)) {
             Hero->attack();
-<<<<<<< HEAD
-            if ((Hero->position().x - Skeleton->position().x <= 10)&& Skeleton->Health != 0) {
-                Skeleton->TakeDamage = true;
-=======
             if (Skeleton->takeDamage((Hero->position().x))) {
 
 
->>>>>>> 914905b6b43847b8ee40a3bba6b735f8d0840372
             }
         }
         Hero->update(deltaTime);
