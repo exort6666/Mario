@@ -10,7 +10,6 @@ private:
     sf::Sprite SpriteEnemy;
     coords Pos;
      
-    int Health = 2;
     float currentFrame = 0;
     float currentFrameAttack = 0;
     float HitRange = 15;
@@ -20,8 +19,11 @@ private:
     bool emphasis;
 
 public:
+    int Health = 2;
     bool Strike;
     bool Saw_hero = false;
+    bool TakeDamage = false;
+
     Mob(coords _pos): Character(_pos) {
         Pos = _pos;
         Enemy.loadFromFile("AnimatedSkeleton/Idle.png");
@@ -38,7 +40,32 @@ public:
 
     void update(float distance,float time) {
         static float i = 0;
-        if ((distance < 100 && distance > -100) || strike) {
+        if(TakeDamage && Health > 0) {
+            Enemy.loadFromFile("AnimatedSkeleton/TakeHit.png");
+            SpriteEnemy.setTexture(Enemy);
+            currentFrame += 0.01 * time;
+            if (currentFrame > 3){
+                currentFrame = 0;
+                TakeDamage = false;
+                Health--;
+            }
+            if (DirOfimpact == "left") {
+                SpriteEnemy.setTextureRect(sf::IntRect(50 + 50 * int(currentFrame), 95, -50, 55));
+            }
+        }
+        if (Health == 0) {
+            currentFrame += 0.01 * time;
+            Enemy.loadFromFile("AnimatedSkeleton/Death.png");
+            SpriteEnemy.setTexture(Enemy);
+            if(currentFrame > 3.5) {
+                currentFrame = 0;
+                Health = -1;
+            }
+            if (DirOfimpact == "left" && Health == 0) {
+                SpriteEnemy.setTextureRect(sf::IntRect(100 + 100 * int(currentFrame), 95, -100, 55));
+            }
+        }
+        if ((((distance < 100 && distance > -100) || strike) && !TakeDamage) && Health > 0) {
             Saw_hero = true;
             Enemy.loadFromFile("AnimatedSkeleton/Idle.png");
             SpriteEnemy.setTexture(Enemy);
@@ -55,15 +82,19 @@ public:
                     currentFrameAttack = 0;
                     strike = false;
                 }
-                if (DirOfimpact == "left")
+                if (DirOfimpact == "left") {
                     SpriteEnemy.setTextureRect(sf::IntRect(100 + 100 * (int(currentFrameAttack)), 95, -100, 55));
-                if (DirOfimpact == "right")
-                    SpriteEnemy.setTextureRect(sf::IntRect(0 + 100 * (int (currentFrameAttack)), 95, 80, 55));
+                }
+                if (DirOfimpact == "right") {
+                    SpriteEnemy.setTextureRect(sf::IntRect(0 + 100 * (int(currentFrameAttack)), 95, 80, 55));
+                }
             }
         }
-        if ((distance > 100 && distance < -100) && !strike)
+
+        if (((distance > 100 || distance < -100) && !strike) && !TakeDamage && Health > 0)
             Saw_hero = false;
-        if (!Saw_hero && !strike) {
+
+        if ((!Saw_hero && !strike)&& !TakeDamage && Health > 0) {
             currentFrame += 0.05 * time;
             if (currentFrame > 3) {
                 currentFrame = 0;
@@ -92,20 +123,12 @@ public:
     coords position() {
         return Pos;
     }
-
-    bool takeDamage(float range) {
-        if (Pos.x - range <= 15) {
-            return true;
-        }
-        else
-            return false;
-    }
 };
 
 int main()
 {
-    Character* Hero =  new  Character({ 100, 400 });
-    Mob* Skeleton = new Mob({ 700, 400 });
+    std::unique_ptr<Character> Hero(new Character({100,400}));
+    std::unique_ptr<Mob> Skeleton(new Mob({ 700,400 }));
 
     sf::RenderWindow window(sf::VideoMode(1200, 600), "SFML works!");
 
@@ -128,14 +151,12 @@ int main()
             Hero->OnGround = false;
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::F) && (!Hero->strike) && (!Hero->fall) && (Hero->OnGround)){
             Hero->attack();
-            if (Skeleton->takeDamage((Hero->position().x))) {
-
-
+            if ((Hero->position().x - Skeleton->position().x <= 15)&& Skeleton->Health != 0) {
+                Skeleton->TakeDamage = true;
             }
         }
         Hero->update(deltaTime);
         Skeleton->update((Skeleton->position().x - Hero->position().x), deltaTime);
-        //Добавить получение по ебучке герою//
         window.clear();
 
         Hero->draw(window);
