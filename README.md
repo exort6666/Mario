@@ -1,3 +1,4 @@
 # sfml_sample  
-Шаблон подключения библиотеки SFML для Visual Studio 2019  
-
+Системные требования OC Windows 10 x64.
+Для разработки Чтобы запустить откройте проект CMake (CMakeLists.txt) в Visual Studio и запустите сборку.
+Для пользования Чтобы запустить для разработки, откройте проект CMake (CMakeLists.txt) в Visual Studio и запустите сборку.
