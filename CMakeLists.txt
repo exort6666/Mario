@@ -31,6 +31,9 @@ add_executable("${PROJECT_NAME}" main.cpp
 								inc/Mobs.hpp
 								src/Mobs.cpp
 								
+								inc/Logger.hpp
+								src/Logger.cpp
+								
 								inc/Heart.hpp
 								src/Heart.cpp
 								

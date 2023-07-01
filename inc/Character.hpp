@@ -6,38 +6,40 @@ struct coords {
     float x;
     float y;
 };
+namespace MA {
+    class Character {
+    private:
+        sf::Texture Pers;
+        sf::Sprite Sprite;
+        double currentFrame = 0;
+        float currentFrameAttack = 0;
+        float jumpHeight = 150;
+        float HitRange = 15;
+        coords Pos;
+        bool alive;
 
-//int ground = 400;
+    public:
+        int Health;
+        bool strike;
+        bool OnGround;
+        bool fall;
+        bool getHit;
 
-class Character {
-private:
-    int Health;
-    sf::Texture Pers;
-    sf::Sprite Sprite;
-    coords Pos;
-    double currentFrame = 0;
-    float currentFrameAttack = 0;
-    float jumpHeight = 100;
-    float HitRange = 15;
+        Character(coords _pos);
 
-public:
-    bool strike;
-    bool OnGround;
-    bool fall; 
+        virtual void draw(sf::RenderWindow& window);
 
-    Character(coords _pos);
-    
-    virtual void draw(sf::RenderWindow& window);
+        virtual void move(coords a, float time);
 
-    virtual void move(coords a, float time);
+        virtual void update(float time);
 
-    virtual void update(float time);
+        virtual void attack();
 
-    virtual void attack();
-
-    coords position() {
-        return Pos;
-    }
-protected:
-    std::string DirOfimpact = "right";
-};
+        virtual coords position() {
+            return Pos;
+        };
+        virtual ~Character();
+    protected:
+        std::string DirOfimpact = "right";
+    };
+}

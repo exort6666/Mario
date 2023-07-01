@@ -1,36 +1,41 @@
-/*#pragma once
+#pragma once
 #include "Character.hpp"
 #include <SFML/Graphics.hpp>
 #include <iostream>
 #include <string>
 
-class Mob: public Character {
-private:
-    sf::Texture Enemy;
-    sf::Sprite SpriteEnemy;
-    coords Pos;
-    double currentFrame = 0;
-    float currentFrameAttack = 0;
-    float HitRange = 15;
-    std::string DirOfimpact;
+namespace MA {
+    class Mob : public MA::Character {
+    private:
+        sf::Texture Enemy;
+        sf::Sprite SpriteEnemy;
+        coords Pos;
 
-public:
-    bool strike;
-    Mob(coords _pos): Character(_pos) {
-        Enemy.loadFromFile("AnimatedSkeleton/Idle.png");
-        SpriteEnemy.setTexture(Enemy);
-        SpriteEnemy.setTextureRect(sf::IntRect(45, 95, -45, 100));
-        SpriteEnemy.setPosition(Pos.x, Pos.y);
-        DirOfimpact = "left";
-    }
-    
-    void draw(sf::RenderWindow& window) override{
-        window.draw(SpriteEnemy);
-    }
+        int hits = 0;
+        float currentFrame = 0;
+        float currentFrameAttack = 0;
+        float HitRange = 15;
+        float distanceWalk = 150;
 
+        std::string DirOfimpact;
+        bool emphasis;
 
-    void move(coords a, float time)
-    {
+    public:
+        int  Health;
+        bool strike;
+        bool Saw_hero;
+        bool TakeDamage;
+        bool Hitting_Hero;
+        bool HitPerTime;
 
-    }
-};*/
+        Mob(coords _pos) : MA::Character(_pos) {}
+
+        void draw(sf::RenderWindow& window) {};
+
+        void update(float distance, float time) {};
+
+        coords position() {};
+
+        bool HitDetected(float distance) {};
+    };
+}
